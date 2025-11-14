@@ -9,8 +9,10 @@ import HistoryView from '@/components/HistoryView';
 import TeamView from '@/components/TeamView';
 import TeamDialog from '@/components/TeamDialog';
 import TeamList from '@/components/TeamList';
+import ReminderBanner from '@/components/ReminderBanner';
 import { exercises, type DifficultyLevel, type Exercise } from '@/data/exercises';
 import { useAuth } from '@/hooks/useAuth';
+import { useExerciseReminder } from '@/hooks/useExerciseReminder';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { apiRequest, queryClient } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
@@ -82,6 +84,18 @@ export default function Home() {
           window.location.href = "/api/login";
         }, 500);
       }
+    },
+  });
+
+  // Exercise reminder with snooze functionality
+  const reminder = useExerciseReminder({
+    intervalMinutes: interval,
+    enabled: notificationsEnabled,
+    onReminder: () => {
+      toast({
+        title: "Time for Deskercise!",
+        description: "Take a quick break and do a desk exercise",
+      });
     },
   });
 
@@ -197,6 +211,11 @@ export default function Home() {
       const updatedHistory = [newItem, ...history];
       setHistory(updatedHistory);
       localStorage.setItem('deskercise-history', JSON.stringify(updatedHistory));
+    }
+    
+    // Reset reminder timer when exercise is completed
+    if (status === 'completed' && notificationsEnabled) {
+      reminder.reset();
     }
   };
 
@@ -408,6 +427,18 @@ export default function Home() {
           }));
         }}
       />
+
+      {reminder.showBanner && (
+        <ReminderBanner
+          onSnooze={reminder.snooze}
+          onDismiss={reminder.dismiss}
+          onDrawCard={() => {
+            reminder.dismiss();
+            setView('deck');
+            drawRandomCard();
+          }}
+        />
+      )}
     </div>
   );
 }
