@@ -2,6 +2,24 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
+// Validate required environment variables
+function validateEnvironment() {
+  const requiredVars = ['DATABASE_URL', 'SESSION_SECRET', 'REPL_ID'];
+  const missing = requiredVars.filter(varName => !process.env[varName]);
+  
+  if (missing.length > 0) {
+    throw new Error(
+      `Missing required environment variables: ${missing.join(', ')}\n` +
+      'Please ensure all required environment variables are set.'
+    );
+  }
+  
+  log('✓ Environment validation passed');
+}
+
+// Validate environment before starting server
+validateEnvironment();
+
 const app = express();
 
 declare module 'http' {
