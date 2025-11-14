@@ -193,7 +193,11 @@ export function useExerciseReminder({ intervalMinutes, enabled, onReminder }: Us
         window.clearTimeout(timerRef.current);
       }
     };
-  }, [enabled, intervalMinutes, start, stop]);
+  // NOTE: Intentionally omitting `start` and `stop` from dependencies to avoid infinite loop.
+  // Including them would cause circular dependency: effect -> start -> scheduleReminder -> enabled/interval -> effect
+  // We only want to re-run when enabled or intervalMinutes actually change.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [enabled, intervalMinutes]);
 
   return {
     ...state,

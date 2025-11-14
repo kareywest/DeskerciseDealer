@@ -88,15 +88,17 @@ export default function Home() {
   });
 
   // Exercise reminder with snooze functionality
+  const handleReminder = useCallback(() => {
+    toast({
+      title: "Time for Deskercise!",
+      description: "Take a quick break and do a desk exercise",
+    });
+  }, [toast]);
+
   const reminder = useExerciseReminder({
     intervalMinutes: interval,
     enabled: notificationsEnabled,
-    onReminder: () => {
-      toast({
-        title: "Time for Deskercise!",
-        description: "Take a quick break and do a desk exercise",
-      });
-    },
+    onReminder: handleReminder,
   });
 
   useEffect(() => {
