@@ -1,0 +1,172 @@
+Product Requirements Document (PRD) 
+
+Project Name: Deskercise Dealer 
+
+1. Overview & Purpose 
+
+Objective: 
+Deskercise Dealer is a playful, React-based web application that helps office workers stay active by prompting them to perform randomized desk exercises at customizable intervals. The core user experience uses a vibrant card-deck metaphor to make exercise fun, easy, and engaging. 
+
+App Type: 
+Modern Web App (React, HTML, CSS, JS, responsive design for desktop and mobile) 
+
+2. Key Features 
+
+Card-deck UI: 
+
+Main screen features a virtual deck of cards with a “Draw Card” button. 
+
+Each card displays: 
+
+Exercise name 
+
+Brief description 
+
+Emoji or SVG illustration 
+
+Actions: Draw new card, repeat current, skip, or return to deck. 
+
+Customizable Reminders: 
+
+User selects reminder frequency (e.g., 30, 60, or 90 minutes). 
+
+Browser notifications or in-app popups are used for reminders. 
+
+Timer persists in background between cards. 
+
+Difficulty/Intensity Filtering: 
+
+Users set preferred exercise intensity: Easy, Intense, or Silent Mode (for discreet stretches). 
+
+Only exercises in chosen category appear in deck. 
+
+Persistent Local Storage: 
+
+User preferences for frequency, difficulty, and exercise history saved using browser local storage. 
+
+Repeat visits recall previous settings and last card drawn. 
+
+Curated Exercise Database: 
+
+Exercises stored as a local JSON file with fields for name, description, difficulty, and illustration. 
+
+Easy to update or extend the exercise set. 
+
+Responsive, Animated UI: 
+
+Playful card animations (flip, shuffle, draw). 
+
+Bright color palette: teal, yellow, pink. 
+
+Layout adapts seamlessly to desktop and mobile screens. 
+
+Exercise Actions: 
+
+Draw a new card 
+
+Repeat current exercise 
+
+Skip (marks as skipped in session history) 
+
+Shape 
+
+3. User Journey 
+
+First Visit: 
+
+Welcome screen with app intro. 
+
+Set preferred interval and difficulty. 
+
+Option to preview exercises. 
+
+Main Experience: 
+
+See card deck and a “Draw Card” button. 
+
+At set interval or on button press, an exercise card is presented. 
+
+Animation makes card “deal” to user. 
+
+Exercise Completion: 
+
+Instructions and illustration clearly shown. 
+
+Actions: repeat, skip, or draw another. 
+
+Timer resets for next reminder. 
+
+Session Persistence: 
+
+App remembers last-used settings and exercise via local storage. 
+
+User can review personal exercise history if desired. 
+
+Shape 
+
+4. Technical Requirements 
+
+Framework: React (functional components, hooks) 
+
+State Management: useState, useEffect; Context API or lightweight global state (if needed) 
+
+Notification API: HTML5 browser notifications or in-app dialogs for reminders 
+
+Storage: window.localStorage for settings, history 
+
+Data Management: Exercises in local JSON, loaded at runtime 
+
+Styling/Design: Styled with CSS-in-JS or CSS modules; matches vibrant mockup palette, playful animation 
+
+Shape 
+
+5. File & Folder Structure (Suggested) 
+
+text 
+
+/deskercise-dealer 
+
+│ 
+
+├── src/ 
+
+│   ├── components/          # Deck, Card, Timer, Settings, etc. 
+
+│   ├── data/                # exercises.json 
+
+│   ├── hooks/               # custom hooks (e.g. useTimer) 
+
+│   ├── utils/               # helper functions 
+
+│   ├── App.js 
+
+│   └── index.js 
+
+├── public/ 
+
+│   └── index.html 
+
+├── package.json 
+
+├── README.md 
+
+└── LICENSE 
+
+Shape 
+
+6. Success Metrics 
+
+Fully functional MVP deployed on Replit 
+
+Users can draw, repeat, skip exercise cards; reminders work as expected 
+
+User preferences and history persist across sessions 
+
+Interface works on desktop and mobile, is vibrant and intuitive 
+
+Clear code structure, documentation, and handoff materials (README, code comments) 
+
+Shape 
+
+Summary: 
+This PRD provides the plan for a robust, delightful desk exercise app, ready to guide your team through development and documentation on Replit. After team and stakeholder review, break down into development sprints/components and begin coding! 
