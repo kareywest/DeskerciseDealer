@@ -6,7 +6,9 @@ A playful, React-based web application that helps office workers stay active by 
 
 ### Core Features
 - **Card-deck UI**: Virtual deck of exercise cards with a "Draw Card" button
-- **Customizable Reminders**: Set reminder frequency (30, 60, or 90 minutes)
+- **Exercise Timer**: Start button initiates 3-2-1 countdown, then exercise timer based on card duration
+- **Timer Controls**: Pause, resume, and stop functionality during exercises
+- **Customizable Reminders**: Set reminder frequency (30, 60, or 90 minutes) with 5-minute snooze
 - **Difficulty Filtering**: Choose between Easy, Intense, or Silent Mode exercises
 - **Exercise Actions**: Draw new card, repeat current, skip, or return to deck
 - **Persistent Storage**: User preferences saved locally or in database (when logged in)
