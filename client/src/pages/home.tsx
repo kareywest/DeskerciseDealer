@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
-import { Settings, History, Moon, Sun, LogIn, LogOut } from 'lucide-react';
+import { Settings, History, Moon, Sun, LogIn, LogOut, Home as HomeIcon } from 'lucide-react';
 import WelcomeScreen from '@/components/WelcomeScreen';
 import CardDeck from '@/components/CardDeck';
 import ExerciseCard from '@/components/ExerciseCard';
@@ -314,6 +314,14 @@ export default function Home() {
                 Log In
               </Button>
             )}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setView('welcome')}
+              data-testid="button-home"
+            >
+              <HomeIcon className="w-5 h-5" />
+            </Button>
             <Button
               variant="ghost"
               size="icon"
