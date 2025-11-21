@@ -1,18 +1,142 @@
-<h1 align="center">Hi 👋, we are Team of 5</h1>
-<h3 align="center">A group of MBA students from Haskayne School of Business, University of Calgary</h3>
+# Deskercise Dealer
 
-- 🔭 We are currently working on **our MBA journey**
+Deskercise Dealer is a React + TypeScript web app that prompts office workers to perform short, randomized desk exercises at customizable intervals. It includes guided timers, countdowns, snoozeable reminders, and optional team leaderboards for accountability.
 
-- 🌱 We are currently learning **Prompt Engineering**
+---
 
-- 👯 We are looking to collaborate on **innovative ideas**
+## Table of Contents
+- Project Summary
+- Demo
+- Features
+- Tech Stack
+- Quick Start (Local)
+- Run on Replit / Deploy
+- Configuration / Environment
+- Usage
+- File / Folder Structure
+- Testing & Quality
+- Contributing
+- Roadmap
+- Credits & License
 
-- 🤝 We are looking for help with **school projects**
+---
 
+## Project Summary
+Deskercise Dealer helps users break long sedentary periods with micro‑workouts presented as a randomized card deck. The app includes customizable reminder intervals, a 5‑minute snooze option, difficulty filters (Easy / Intense / Silent), a guided exercise timer, and light team/leaderboard features.
 
-<h3 align="left">Connect with me:</h3>
-<p align="left">
-</p>
+---
 
-<h3 align="left">Languages and Tools:</h3>
-<p align="left"> <a href="https://www.w3schools.com/cpp/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/cplusplus/cplusplus-original.svg" alt="cplusplus" width="40" height="40"/> </a> <a href="https://www.w3schools.com/css/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="css3" width="40" height="40"/> </a> <a href="https://firebase.google.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/firebase/firebase-icon.svg" alt="firebase" width="40" height="40"/> </a> <a href="https://golang.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/go/go-original.svg" alt="go" width="40" height="40"/> </a> <a href="https://www.w3.org/html/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" alt="html5" width="40" height="40"/> </a> <a href="https://www.java.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="40" height="40"/> </a> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="40" height="40"/> </a> <a href="https://www.mongodb.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original-wordmark.svg" alt="mongodb" width="40" height="40"/> </a> <a href="https://nodejs.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original-wordmark.svg" alt="nodejs" width="40" height="40"/> </a> <a href="https://www.php.net" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/php/php-original.svg" alt="php" width="40" height="40"/> </a> <a href="https://www.postgresql.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original-wordmark.svg" alt="postgresql" width="40" height="40"/> </a> <a href="https://www.python.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="40" height="40"/> </a> <a href="https://www.ruby-lang.org/en/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/ruby/ruby-original.svg" alt="ruby" width="40" height="40"/> </a> <a href="https://www.sqlite.org/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/sqlite/sqlite-icon.svg" alt="sqlite" width="40" height="40"/> </a> <a href="https://www.typescriptlang.org/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg" alt="typescript" width="40" height="40"/> </a> </p>
+## Demo
+- Live App: https://deskercise-dealer-kareywest.replit.app
+- GitHub Repo: https://github.com/kareywest/DeskerciseDealer
+
+---
+
+## Features
+- Randomized exercise cards with instructions, duration, and difficulty
+- Guided 3–2–1 countdown and exercise timer
+- Pause / Resume / Stop controls
+- Custom reminder intervals with snooze
+- Difficulty filtering
+- Team creation and simple leaderboard
+- LocalStorage‑persisted preferences
+- Responsive UI and dark mode
+
+---
+
+## Tech Stack
+- React + TypeScript
+- Vite / npm
+- Replit Auth
+- Replit DB (or equivalent)
+- LocalStorage for client preferences
+
+---
+
+## Quick Start (Local)
+
+```bash
+git clone https://github.com/kareywest/DeskerciseDealer.git
+cd DeskerciseDealer
+npm install
+npm run dev
+```
+
+Then open the local URL printed in terminal (typically http://localhost:5173).
+
+---
+
+## Run on Replit / Deploy
+- Runs automatically inside Replit using Replit Auth.
+- For Netlify/Vercel deployment, replace or stub Replit‑specific auth/DB variables.
+
+---
+
+## Configuration / Environment
+Create `.env` or `.env.local`:
+
+```
+VITE_API_BASE_URL=http://localhost:3000
+REPLIT_AUTH_CLIENT_ID=your_replit_client_id
+REPLIT_DB_URL=your_replit_db_url
+```
+
+---
+
+## Usage
+1. Set reminder interval and difficulty.
+2. Select “Draw Card” to receive a random exercise.
+3. Start exercise → 3–2–1 countdown → timer.
+4. Pause/Resume/Stop as needed.
+5. Enable notifications for reminders.
+6. Join or create a team to appear on the leaderboard.
+
+---
+
+## Suggested File / Folder Structure
+
+```
+/deskercise-dealer
+├── client/
+│   └── src/
+│       ├── components/
+│       ├── data/
+│       ├── context/
+│       ├── hooks/
+│       ├── utils/
+│       ├── App.tsx
+│       └── main.tsx
+├── package.json
+└── README.md
+```
+
+---
+
+## Testing & Quality
+- Add unit tests for hooks: reminder logic, exercise timer logic.
+- Manual QA recommendations:
+  - Timer behavior
+  - Snooze logic
+  - Leaderboard updates
+
+---
+
+## Contributing
+1. Create a feature branch.
+2. Commit with descriptive messages.
+3. Open a Pull Request linked to relevant tasks.
+4. Add tests for new features.
+
+---
+
+## Roadmap
+- Daily/weekly leaderboard filters  
+- Exercise history and export  
+- Engagement analytics  
+- Accessibility improvements  
+
+---
+
+## Credits & License
+Created for an MBA‑level AI course.  
+Recommended License: MIT  
