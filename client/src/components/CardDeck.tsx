@@ -1,33 +1,65 @@
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Sparkles } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface CardDeckProps {
   onDrawCard: () => void;
   cardsRemaining: number;
+  shouldShuffle?: boolean;
 }
 
-export default function CardDeck({ onDrawCard, cardsRemaining }: CardDeckProps) {
+export default function CardDeck({ onDrawCard, cardsRemaining, shouldShuffle = false }: CardDeckProps) {
+  const [isShuffling, setIsShuffling] = useState(false);
+
+  useEffect(() => {
+    if (shouldShuffle) {
+      setIsShuffling(true);
+      const timer = setTimeout(() => setIsShuffling(false), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [shouldShuffle]);
+
   return (
     <div className="flex flex-col items-center justify-center gap-8 py-16">
       <div className="relative w-64 h-80" data-testid="deck-stack">
         {[0, 1, 2].map((index) => (
-          <Card
+          <motion.div
             key={index}
-            className="absolute inset-0 bg-gradient-to-br from-primary to-primary/70 border-2 border-primary-border shadow-xl"
+            className="absolute inset-0"
+            initial={false}
+            animate={isShuffling ? {
+              x: [index * 4, (index - 1) * 60, index * 4],
+              y: [index * -8, -40, index * -8],
+              rotate: [index * -2, (index - 1) * 15, index * -2],
+              scale: [1, 1.1, 1],
+            } : {
+              x: index * 4,
+              y: index * -8,
+              rotate: index * -2,
+              scale: 1,
+            }}
+            transition={{
+              duration: 0.8,
+              ease: "easeInOut",
+            }}
             style={{
-              transform: `translateY(${index * -8}px) translateX(${index * 4}px) rotate(${index * -2}deg)`,
               zIndex: 3 - index,
             }}
           >
-            <div className="w-full h-full flex items-center justify-center">
-              <div className="text-center text-primary-foreground space-y-4">
-                <Sparkles className="w-16 h-16 mx-auto opacity-50" />
-                <p className="text-6xl font-heading font-bold">{cardsRemaining}</p>
-                <p className="text-sm font-semibold opacity-75">exercises ready</p>
+            <Card
+              className="w-full h-full bg-gradient-to-br from-primary to-primary/70 border-2 border-primary-border shadow-xl"
+            >
+              <div className="w-full h-full flex items-center justify-center">
+                <div className="text-center text-primary-foreground space-y-4">
+                  <Sparkles className="w-16 h-16 mx-auto opacity-50" />
+                  <p className="text-6xl font-heading font-bold">{cardsRemaining}</p>
+                  <p className="text-sm font-semibold opacity-75">exercises ready</p>
+                </div>
               </div>
-            </div>
-          </Card>
+            </Card>
+          </motion.div>
         ))}
       </div>
 
