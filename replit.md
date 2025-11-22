@@ -16,12 +16,13 @@ A playful, React-based web application that helps office workers stay active by 
 - **Responsive Design**: Works seamlessly on desktop and mobile
 - **Dark Mode**: Toggle between light and dark themes
 
-### Team Accountability Features (NEW!)
+### Team Accountability Features
 - **User Authentication**: Log in with Google, GitHub, Apple, email/password via Replit Auth
+- **Avatar Personalization**: Choose from 20+ emoji avatars to represent yourself in teams
 - **Create Teams**: Form exercise teams with friends and colleagues
 - **Join Teams**: Use invite codes to join existing teams
-- **Team Leaderboard**: See rankings based on completed exercises
-- **Activity Feed**: View recent team member exercises in real-time
+- **Team Leaderboard**: See rankings based on completed exercises with member avatars
+- **Activity Feed**: View recent team member exercises in real-time with avatars
 - **Streak Tracking**: Monitor consecutive days with completed exercises
 - **Cross-device Sync**: Exercise history syncs across all your devices when logged in
 
@@ -55,7 +56,9 @@ A playful, React-based web application that helps office workers stay active by 
 │   │   │   ├── HistoryView.tsx
 │   │   │   ├── TeamView.tsx
 │   │   │   ├── TeamDialog.tsx
-│   │   │   └── TeamList.tsx
+│   │   │   ├── TeamList.tsx
+│   │   │   ├── AvatarPicker.tsx
+│   │   │   └── UserAvatar.tsx
 │   │   ├── data/             # Exercise database
 │   │   ├── hooks/            # Custom React hooks
 │   │   ├── lib/              # Utility functions
@@ -75,7 +78,7 @@ A playful, React-based web application that helps office workers stay active by 
 ## Database Schema
 
 ### Tables
-- **users**: User profiles (managed by Replit Auth)
+- **users**: User profiles (managed by Replit Auth) - includes avatarEmoji field for personalization
 - **sessions**: User sessions (managed by Passport.js)
 - **teams**: Exercise teams
 - **teamMembers**: Team membership (junction table)
@@ -88,6 +91,7 @@ A playful, React-based web application that helps office workers stay active by 
 - `GET /api/callback` - OAuth callback
 - `GET /api/logout` - Logs out user
 - `GET /api/auth/user` - Gets current user info
+- `PATCH /api/user/avatar` - Update user's avatar emoji
 
 ### Teams
 - `POST /api/teams` - Create a new team
