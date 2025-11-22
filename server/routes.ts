@@ -40,15 +40,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Avatar emoji is required" });
       }
       
-      const user = await storage.getUser(userId);
-      if (!user) {
+      const updatedUser = await storage.updateUserAvatar(userId, avatarEmoji);
+      
+      if (!updatedUser) {
         return res.status(404).json({ message: "User not found" });
       }
-      
-      const updatedUser = await storage.upsertUser({
-        ...user,
-        avatarEmoji,
-      });
       
       res.json(updatedUser);
     } catch (error) {
