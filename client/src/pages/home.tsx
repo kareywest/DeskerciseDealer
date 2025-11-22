@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Settings, History, Moon, Sun, LogIn, LogOut, Home as HomeIcon } from 'lucide-react';
 import WelcomeScreen from '@/components/WelcomeScreen';
@@ -42,6 +42,7 @@ export default function Home() {
   const [darkMode, setDarkMode] = useState(false);
   const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
   const [shouldShuffle, setShouldShuffle] = useState(false);
+  const shuffleTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { toast } = useToast();
 
   // Fetch user teams if authenticated
@@ -147,6 +148,15 @@ export default function Home() {
     }
   }, [isAuthenticated, serverLogs]);
 
+  // Cleanup shuffle timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (shuffleTimeoutRef.current) {
+        clearTimeout(shuffleTimeoutRef.current);
+      }
+    };
+  }, []);
+
   const handleStart = (newInterval: number, newDifficulty: DifficultyLevel) => {
     setInterval(newInterval);
     setDifficulty(newDifficulty);
@@ -165,7 +175,10 @@ export default function Home() {
   const returnToDeck = () => {
     setShouldShuffle(true);
     setView('deck');
-    setTimeout(() => setShouldShuffle(false), 100);
+    if (shuffleTimeoutRef.current) {
+      clearTimeout(shuffleTimeoutRef.current);
+    }
+    shuffleTimeoutRef.current = setTimeout(() => setShouldShuffle(false), 100);
   };
 
   const drawRandomCard = () => {
