@@ -45,6 +45,7 @@ export default function Home() {
   const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
   const [shouldShuffle, setShouldShuffle] = useState(false);
   const [avatarPickerOpen, setAvatarPickerOpen] = useState(false);
+  const [recentCards, setRecentCards] = useState<string[]>([]);
   const shuffleTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { toast } = useToast();
 
@@ -162,6 +163,16 @@ export default function Home() {
       }
     }
 
+    // Load recent cards history
+    const storedRecentCards = localStorage.getItem('deskercise-recent-cards');
+    if (storedRecentCards) {
+      try {
+        setRecentCards(JSON.parse(storedRecentCards));
+      } catch {
+        // Ignore invalid data
+      }
+    }
+
     const storedDarkMode = localStorage.getItem('deskercise-darkmode');
     if (storedDarkMode === 'true') {
       setDarkMode(true);
@@ -220,8 +231,24 @@ export default function Home() {
     const filtered = getFilteredExercises();
     if (filtered.length === 0) return;
     
-    const randomIndex = Math.floor(Math.random() * filtered.length);
-    setCurrentExercise(filtered[randomIndex]);
+    // Exclude recently drawn cards (last 10)
+    let available = filtered.filter(ex => !recentCards.includes(ex.id));
+    
+    // If all cards have been drawn recently, reset and allow any card
+    if (available.length === 0) {
+      available = filtered;
+      setRecentCards([]);
+    }
+    
+    const randomIndex = Math.floor(Math.random() * available.length);
+    const selectedExercise = available[randomIndex];
+    
+    // Update recent cards list (keep last 10)
+    const updatedRecent = [selectedExercise.id, ...recentCards].slice(0, 10);
+    setRecentCards(updatedRecent);
+    localStorage.setItem('deskercise-recent-cards', JSON.stringify(updatedRecent));
+    
+    setCurrentExercise(selectedExercise);
     setIsCardFlipped(false);
     setTimeout(() => setIsCardFlipped(true), 100);
     setView('card');
@@ -487,6 +514,9 @@ export default function Home() {
         }}
         onDifficultyChange={(val) => {
           setDifficulty(val);
+          // Clear recent cards when difficulty changes (new pool of exercises)
+          setRecentCards([]);
+          localStorage.removeItem('deskercise-recent-cards');
           localStorage.setItem('deskercise-settings', JSON.stringify({
             interval,
             difficulty: val,
