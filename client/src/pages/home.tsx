@@ -231,20 +231,38 @@ export default function Home() {
     const filtered = getFilteredExercises();
     if (filtered.length === 0) return;
     
-    // Exclude recently drawn cards (last 10)
-    let available = filtered.filter(ex => !recentCards.includes(ex.id));
+    // Always read from localStorage to get the most up-to-date recent cards list
+    // This prevents race conditions with rapid state updates
+    let currentRecent: string[] = [];
+    try {
+      const stored = localStorage.getItem('deskercise-recent-cards');
+      if (stored) {
+        currentRecent = JSON.parse(stored);
+      }
+    } catch {
+      // Ignore invalid data
+    }
     
-    // If all cards have been drawn recently, reset and allow any card
+    // Exclude recently drawn cards (last 10)
+    let available = filtered.filter(ex => !currentRecent.includes(ex.id));
+    
+    // If all cards have been drawn recently, keep removing oldest entries
+    // until we have at least one available card
+    while (available.length === 0 && currentRecent.length > 0) {
+      currentRecent = currentRecent.slice(0, -1); // Remove oldest entry
+      available = filtered.filter(ex => !currentRecent.includes(ex.id));
+    }
+    
+    // If still no cards available (shouldn't happen), allow any card
     if (available.length === 0) {
       available = filtered;
-      setRecentCards([]);
     }
     
     const randomIndex = Math.floor(Math.random() * available.length);
     const selectedExercise = available[randomIndex];
     
     // Update recent cards list (keep last 10)
-    const updatedRecent = [selectedExercise.id, ...recentCards].slice(0, 10);
+    const updatedRecent = [selectedExercise.id, ...currentRecent].slice(0, 10);
     setRecentCards(updatedRecent);
     localStorage.setItem('deskercise-recent-cards', JSON.stringify(updatedRecent));
     
