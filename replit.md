@@ -5,12 +5,13 @@ A playful, React-based web application that helps office workers stay active by 
 ## Features
 
 ### Core Features
-- **Card-deck UI**: Virtual deck of exercise cards with a "Draw Card" button
+- **Card-deck UI**: Virtual deck of exercise cards with a "Draw Card" button and shuffle flourish animation
 - **Exercise Timer**: Start button initiates 3-2-1 countdown, then exercise timer based on card duration
 - **Timer Controls**: Pause, resume, and stop functionality during exercises
 - **Customizable Reminders**: Set reminder frequency (30, 60, or 90 minutes) with 5-minute snooze
 - **Difficulty Filtering**: Choose between Easy, Intense, or Silent Mode exercises
 - **Exercise Actions**: Draw new card, repeat current, skip, or return to deck
+- **Shuffle Animation**: Playful card flourish when returning to deck from exercise or team view
 - **Persistent Storage**: User preferences saved locally or in database (when logged in)
 - **Responsive Design**: Works seamlessly on desktop and mobile
 - **Dark Mode**: Toggle between light and dark themes
