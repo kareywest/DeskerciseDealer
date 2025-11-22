@@ -30,6 +30,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Update user avatar
+  app.patch('/api/user/avatar', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const { avatarEmoji } = req.body;
+      
+      if (!avatarEmoji || typeof avatarEmoji !== 'string') {
+        return res.status(400).json({ message: "Avatar emoji is required" });
+      }
+      
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      
+      const updatedUser = await storage.upsertUser({
+        ...user,
+        avatarEmoji,
+      });
+      
+      res.json(updatedUser);
+    } catch (error) {
+      console.error("Error updating avatar:", error);
+      res.status(500).json({ message: "Failed to update avatar" });
+    }
+  });
+
   // Team routes
   app.post('/api/teams', isAuthenticated, async (req: any, res) => {
     try {

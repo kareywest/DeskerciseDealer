@@ -10,6 +10,8 @@ import TeamView from '@/components/TeamView';
 import TeamDialog from '@/components/TeamDialog';
 import TeamList from '@/components/TeamList';
 import ReminderBanner from '@/components/ReminderBanner';
+import AvatarPicker from '@/components/AvatarPicker';
+import UserAvatar from '@/components/UserAvatar';
 import { exercises, type DifficultyLevel, type Exercise } from '@/data/exercises';
 import { useAuth } from '@/hooks/useAuth';
 import { useExerciseReminder } from '@/hooks/useExerciseReminder';
@@ -42,6 +44,7 @@ export default function Home() {
   const [darkMode, setDarkMode] = useState(false);
   const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
   const [shouldShuffle, setShouldShuffle] = useState(false);
+  const [avatarPickerOpen, setAvatarPickerOpen] = useState(false);
   const shuffleTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { toast } = useToast();
 
@@ -85,6 +88,38 @@ export default function Home() {
         setTimeout(() => {
           window.location.href = "/api/login";
         }, 500);
+      }
+    },
+  });
+
+  // Mutation for updating avatar
+  const updateAvatarMutation = useMutation({
+    mutationFn: async (avatarEmoji: string) => {
+      return await apiRequest('PATCH', '/api/user/avatar', { avatarEmoji });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/auth/user'] });
+      toast({
+        title: "Avatar updated!",
+        description: "Your new avatar has been saved",
+      });
+    },
+    onError: (error: any) => {
+      if (isUnauthorizedError(error)) {
+        toast({
+          title: "Unauthorized",
+          description: "You are logged out. Logging in again...",
+          variant: "destructive",
+        });
+        setTimeout(() => {
+          window.location.href = "/api/login";
+        }, 500);
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to update avatar",
+          variant: "destructive",
+        });
       }
     },
   });
@@ -311,6 +346,15 @@ export default function Home() {
           <div className="flex items-center gap-2">
             {isAuthenticated ? (
               <>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setAvatarPickerOpen(true)}
+                  className="rounded-full"
+                  data-testid="button-avatar"
+                >
+                  <UserAvatar user={user} size="sm" />
+                </Button>
                 <TeamDialog onTeamCreated={() => {
                   queryClient.invalidateQueries({ queryKey: ['/api/teams'] });
                 }} />
@@ -470,6 +514,13 @@ export default function Home() {
           }}
         />
       )}
+
+      <AvatarPicker
+        isOpen={avatarPickerOpen}
+        onClose={() => setAvatarPickerOpen(false)}
+        currentAvatar={user?.avatarEmoji || undefined}
+        onSelect={(emoji) => updateAvatarMutation.mutate(emoji)}
+      />
     </div>
   );
 }
