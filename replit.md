@@ -171,16 +171,25 @@ See `design_guidelines.md` for complete design specifications.
 
 ## Exercise Database
 
-15 curated exercises across three difficulty levels:
-- **Silent Mode**: Discreet stretches (neck rolls, wrist circles, eye exercises)
-- **Easy**: Light movements (shoulder shrugs, arm circles, calf raises)
-- **Intense**: Cardio workouts (desk push-ups, jumping jacks, burpees)
+33 curated exercises across three difficulty levels (11 exercises per level):
+- **Silent Mode**: Discreet stretches (neck rolls, wrist circles, eye exercises, breathing techniques)
+- **Easy**: Light movements (shoulder shrugs, arm circles, calf raises, gentle stretches)
+- **Intense**: Cardio workouts (desk push-ups, jumping jacks, burpees, strength exercises)
 
 Each exercise includes:
 - Name
 - Description with step-by-step instructions
 - Emoji icon
 - Difficulty level
+- Duration in seconds
+
+### Card Repetition Prevention
+The app prevents the same exercise from appearing too soon:
+- Tracks the last 10 drawn exercise IDs in localStorage
+- Excludes recently drawn exercises from the selection pool
+- Ensures variety and freshness in workouts
+- Clears when difficulty level changes (new pool)
+- Works seamlessly with 11-exercise pools per difficulty
 
 ## Development Notes
 
