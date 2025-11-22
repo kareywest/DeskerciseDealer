@@ -41,6 +41,7 @@ export default function Home() {
   const [history, setHistory] = useState<ExerciseHistoryItem[]>([]);
   const [darkMode, setDarkMode] = useState(false);
   const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
+  const [shouldShuffle, setShouldShuffle] = useState(false);
   const { toast } = useToast();
 
   // Fetch user teams if authenticated
@@ -159,6 +160,12 @@ export default function Home() {
 
   const getFilteredExercises = () => {
     return exercises.filter(ex => ex.difficulty === difficulty);
+  };
+
+  const returnToDeck = () => {
+    setShouldShuffle(true);
+    setView('deck');
+    setTimeout(() => setShouldShuffle(false), 100);
   };
 
   const drawRandomCard = () => {
@@ -369,6 +376,7 @@ export default function Home() {
           <CardDeck
             onDrawCard={drawRandomCard}
             cardsRemaining={getFilteredExercises().length}
+            shouldShuffle={shouldShuffle}
           />
         )}
 
@@ -379,7 +387,7 @@ export default function Home() {
               onRepeat={handleRepeat}
               onSkip={handleSkip}
               onDrawNew={handleDrawNew}
-              onBack={() => setView('deck')}
+              onBack={returnToDeck}
               isFlipped={isCardFlipped}
             />
           </div>
@@ -399,7 +407,7 @@ export default function Home() {
             teamName={selectedTeam.name}
             onLeave={() => {
               setSelectedTeam(null);
-              setView('deck');
+              returnToDeck();
               queryClient.invalidateQueries({ queryKey: ['/api/teams'] });
             }}
           />
