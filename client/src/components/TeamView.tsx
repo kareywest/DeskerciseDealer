@@ -1,13 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { useQuery } from '@tanstack/react-query';
 import { Users, TrendingUp, Award, LogOut } from 'lucide-react';
 import { apiRequest } from '@/lib/queryClient';
 import { useToast } from '@/hooks/use-toast';
 import { isUnauthorizedError } from '@/lib/authUtils';
+import UserAvatar from '@/components/UserAvatar';
 import type { User } from '@shared/schema';
 
 interface TeamMember {
@@ -34,7 +34,7 @@ interface TeamStats {
   name: string;
   total: number;
   streak: number;
-  profileImageUrl?: string;
+  user: User;
 }
 
 interface TeamViewProps {
@@ -83,7 +83,7 @@ export default function TeamView({ teamId, teamName, onLeave }: TeamViewProps) {
       name: displayName,
       total: completed.length,
       streak,
-      profileImageUrl: member.user.profileImageUrl || undefined,
+      user: member.user,
     };
   }).sort((a, b) => b.total - a.total);
 
@@ -155,10 +155,7 @@ export default function TeamView({ teamId, teamName, onLeave }: TeamViewProps) {
                         <div className="text-2xl font-heading font-bold text-muted-foreground w-8">
                           #{index + 1}
                         </div>
-                        <Avatar>
-                          <AvatarImage src={stat.profileImageUrl} className="object-cover" />
-                          <AvatarFallback>{stat.name.charAt(0)}</AvatarFallback>
-                        </Avatar>
+                        <UserAvatar user={stat.user} size="md" />
                         <div className="flex-1">
                           <p className="font-semibold" data-testid="text-member-name">{stat.name}</p>
                           <div className="flex items-center gap-3 text-sm text-muted-foreground">
@@ -199,6 +196,7 @@ export default function TeamView({ teamId, teamName, onLeave }: TeamViewProps) {
                     return (
                       <Card key={log.id} className="hover-elevate" data-testid={`log-${log.id}`}>
                         <CardContent className="p-4 flex items-center gap-4">
+                          <UserAvatar user={log.user} size="sm" />
                           <div className="text-3xl">{log.emoji}</div>
                           <div className="flex-1">
                             <p className="font-semibold" data-testid="text-log-exercise">{log.exerciseName}</p>
