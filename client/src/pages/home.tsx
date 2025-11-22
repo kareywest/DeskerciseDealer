@@ -246,16 +246,25 @@ export default function Home() {
     // Exclude recently drawn cards (last 10)
     let available = filtered.filter(ex => !currentRecent.includes(ex.id));
     
-    // If all cards have been drawn recently, keep removing oldest entries
-    // until we have at least one available card
-    while (available.length === 0 && currentRecent.length > 0) {
-      currentRecent = currentRecent.slice(0, -1); // Remove oldest entry
+    // If no cards are available (all are in recent list):
+    // - If recent list is already at 10, we can safely exclude the last 10
+    // - If recent list < 10, we need to make room by removing oldest entries
+    if (available.length === 0) {
+      if (currentRecent.length >= 10) {
+        // List is full (10 items), remove oldest to make room
+        currentRecent = currentRecent.slice(0, -1);
+      } else if (currentRecent.length >= filtered.length) {
+        // All exercises in pool are in recent list, but list < 10
+        // Remove oldest to cycle through exercises
+        currentRecent = currentRecent.slice(0, -1);
+      }
       available = filtered.filter(ex => !currentRecent.includes(ex.id));
     }
     
     // If still no cards available (shouldn't happen), allow any card
     if (available.length === 0) {
       available = filtered;
+      currentRecent = [];
     }
     
     const randomIndex = Math.floor(Math.random() * available.length);
